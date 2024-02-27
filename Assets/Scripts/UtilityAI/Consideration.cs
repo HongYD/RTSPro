@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RTSPro.Core
+namespace RTSPro.UtilityAI
 {
-    public abstract class AIAction : ScriptableObject
+    public abstract class Consideration : ScriptableObject
     {
         public string Name;
         private float score;
@@ -12,24 +12,16 @@ namespace RTSPro.Core
         {
             get { return score; }
             set
-            { 
+            {
                 this.score = Mathf.Clamp01(value);
             }
         }
-
-        public Consideration[] considerations;
 
         public virtual void Awake()
         {
             score = 0;
         }
 
-        public abstract void OnStart();
-
-
-        public abstract void OnExcute();
-
-
-        public abstract void OnExit();
+        public abstract float ScoreConsideration();
     }
 }

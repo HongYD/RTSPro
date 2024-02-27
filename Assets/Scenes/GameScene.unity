@@ -17833,7 +17833,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9000bc573abb7af4880d6d8a39e127b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionAvailable: []
+  actionAvailable:
+  - {fileID: 11400000, guid: 666c4993ca9e54d4bb5f909c2f8ef507, type: 2}
+  - {fileID: 11400000, guid: b2f1ffee4f9db5c428c65cd2f72ff014, type: 2}
+  - {fileID: 11400000, guid: 90d53e11470f72d46941836f712bc7dc, type: 2}
 --- !u!114 &1551145391
 MonoBehaviour:
   m_ObjectHideFlags: 0

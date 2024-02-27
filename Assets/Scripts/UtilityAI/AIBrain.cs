@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RTSPro.Core;
 
-namespace RTSPro.Core
+namespace RTSPro.UtilityAI
 {
     public class AIBrain : MonoBehaviour
     {
@@ -65,7 +66,6 @@ namespace RTSPro.Core
             float modFactor = 1 - (1 / aiAction.considerations.Length);//Length越长，modFactor越大
             float makeupValue = (1 - originalScore) * modFactor;//originalScore越大,makeupValue越小
             aiAction.Score = originalScore + (makeupValue * originalScore);
-
             return aiAction.Score;
         }
     }
