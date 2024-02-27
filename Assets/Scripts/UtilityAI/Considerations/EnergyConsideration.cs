@@ -9,7 +9,7 @@ namespace RTSPro.UtilityAI.Considerations
     {
         public override float ScoreConsideration()
         {
-            return 0.1f;
+            return 0.9f;
         }
     }
 }

@@ -7,7 +7,10 @@ namespace RTSPro.UtilityAI
 {
     public class AIBrain : MonoBehaviour
     {
-        private AIAction bestAction { get; set; }
+        public AIAction bestAction { get; set; }
+
+        public bool finishedDeciding { get; set; }
+
         private NPCController npcController;
         // Start is called before the first frame update
         void Start()
@@ -18,7 +21,10 @@ namespace RTSPro.UtilityAI
         // Update is called once per frame
         void Update()
         {
-
+            if(bestAction is null)
+            {
+                DecideBestAction(npcController.actionAvailable);
+            }
         }
 
         /// <summary>
@@ -26,7 +32,7 @@ namespace RTSPro.UtilityAI
         /// give me the highest scoring action
         /// </summary>
         /// <param name="actionsAvailable"></param>
-        private void DecideBestAction(AIAction[] actionsAvailable)
+        public void DecideBestAction(AIAction[] actionsAvailable)
         {
             float score = 0f;
             int nextBestActionIndex = 0;
@@ -39,7 +45,7 @@ namespace RTSPro.UtilityAI
                 }
             }
             bestAction = actionsAvailable[nextBestActionIndex];
-
+            finishedDeciding = true;
         }
 
         /// <summary>

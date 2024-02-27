@@ -13,8 +13,7 @@ namespace RTSPro.Core
         [SerializeField]
         private AIBrain aiBrain { get; set; }
 
-        [SerializeField]
-        private AIAction[] actionAvailable;
+        public AIAction[] actionAvailable;
 
         private void Start()
         {
@@ -24,7 +23,16 @@ namespace RTSPro.Core
 
         private void Update()
         {
-            
+            if (aiBrain.finishedDeciding)
+            {
+                aiBrain.finishedDeciding = false;
+                aiBrain.bestAction.OnExcute(this);
+            }
+        }
+
+        public void OnFinishedAction()
+        {
+            aiBrain.DecideBestAction(actionAvailable);
         }
 
         #region Action Excute Coroutines
@@ -38,18 +46,6 @@ namespace RTSPro.Core
             StartCoroutine(SleepCoroutine(time));
         }
 
-        private IEnumerator EatCoroutine(int time)
-        {
-            int counter = time;
-            while (counter > 0)
-            {
-
-                yield return new WaitForSeconds(1);
-                counter--;
-            }
-            Debug.Log("I Just harvest 1 resources");
-        }
-
         private IEnumerator WorkCoroutine(int time)
         {
             int counter = time;
@@ -61,6 +57,8 @@ namespace RTSPro.Core
             }
             Debug.Log("I Just harvest 1 resources");
             //Logic to update things involved with work
+            //Decide our new best action after you finshed this one
+            OnFinishedAction();
         }
 
         private IEnumerator SleepCoroutine(int time)
@@ -73,6 +71,8 @@ namespace RTSPro.Core
             }
             Debug.Log("I slept and gained 1 energy");
             //Logic to update energy
+            //Decide our new best action after you finshed this one
+            OnFinishedAction();
         }
         #endregion
     }

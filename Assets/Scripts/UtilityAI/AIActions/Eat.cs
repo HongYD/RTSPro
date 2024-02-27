@@ -9,7 +9,6 @@ namespace RTSPro.UtilityAI.AIActions
     [CreateAssetMenu(fileName = "Eat", menuName = "UtilityAI/AIActions/Eat")]
     public class Eat : AIAction
     {
-        int eatTime = 5;
         public override void OnStart()
         {
 
@@ -18,6 +17,7 @@ namespace RTSPro.UtilityAI.AIActions
         public override void OnExcute(NPCController npc)
         {
             Debug.Log("I ate food");
+            npc.OnFinishedAction();
             //Logic for updating every thing involved eating.
         }
 
