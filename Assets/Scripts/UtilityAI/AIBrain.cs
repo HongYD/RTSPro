@@ -59,7 +59,7 @@ namespace RTSPro.UtilityAI
             float score = 1f;
             for(int i = 0; i<aiAction.considerations.Length; i++)
             {
-                float considerationScore = aiAction.considerations[i].ScoreConsideration();
+                float considerationScore = aiAction.considerations[i].ScoreConsideration(npcController);
                 score *= considerationScore;
                 if(score == 0)
                 {

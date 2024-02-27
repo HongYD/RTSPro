@@ -15,6 +15,10 @@ namespace RTSPro.Core
 
         public AIAction[] actionAvailable;
 
+        public NPCInventory Inventory { get; set; }
+
+        public Stats stats { get; set; }
+
         private void Start()
         {
             movement = GetComponent<MovementController>();

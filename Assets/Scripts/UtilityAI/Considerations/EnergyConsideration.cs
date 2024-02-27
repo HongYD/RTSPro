@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RTSPro.Core;
 
 namespace RTSPro.UtilityAI.Considerations
 {
     [CreateAssetMenu(fileName = "EnergyConsideration", menuName = "UtilityAI/Considerations/EnergyConsideration Consideration")]
     public class EnergyConsideration : Consideration
     {
-        public override float ScoreConsideration()
+        [SerializeField] private AnimationCurve responseCurve;
+        public override float ScoreConsideration(NPCController npc)
         {
-            return 0.9f;
+            Score = responseCurve.Evaluate(Mathf.Clamp01(npc.stats.energy / 100f));
+            return Score;
         }
     }
 }

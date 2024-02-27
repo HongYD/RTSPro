@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RTSPro.Core;
 
 namespace RTSPro.UtilityAI
 {
@@ -22,6 +23,6 @@ namespace RTSPro.UtilityAI
             score = 0;
         }
 
-        public abstract float ScoreConsideration();
+        public abstract float ScoreConsideration(NPCController npc);
     }
 }
