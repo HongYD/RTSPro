@@ -11,22 +11,26 @@ namespace RTSPro.UtilityAI
         public AIAction bestAction { get; set; }
 
         public bool finishedDeciding { get; set; }
+        public bool finishedExcutingBestAction { get; internal set; }
 
         private NPCController npcController;
         [SerializeField] private Billboard billBoard;
+        [SerializeField] private AIAction[] actionAvailable;
         // Start is called before the first frame update
         void Start()
         {
             npcController = GetComponent<NPCController>();
+            finishedDeciding = false;
+            finishedExcutingBestAction = false;
         }
 
         // Update is called once per frame
         void Update()
         {
-            if(bestAction is null)
-            {
-                DecideBestAction(npcController.actionAvailable);
-            }
+            //if(bestAction is null)
+            //{
+            //    DecideBestAction();
+            //}
         }
 
         /// <summary>
@@ -34,19 +38,21 @@ namespace RTSPro.UtilityAI
         /// give me the highest scoring action
         /// </summary>
         /// <param name="actionsAvailable"></param>
-        public void DecideBestAction(AIAction[] actionsAvailable)
+        public void DecideBestAction()
         {
+            finishedExcutingBestAction = false;
             float score = 0f;
             int nextBestActionIndex = 0;
-            for(int i = 0; i < actionsAvailable.Length; i++)
+            for(int i = 0; i < actionAvailable.Length; i++)
             {
-                if (ScoreAction(actionsAvailable[i]) > score)
+                if (ScoreAction(actionAvailable[i]) > score)
                 {
                     nextBestActionIndex = i;
-                    score = actionsAvailable[i].Score;
+                    score = actionAvailable[i].Score;
                 }
             }
-            bestAction = actionsAvailable[nextBestActionIndex];
+            bestAction = actionAvailable[nextBestActionIndex];
+            bestAction.SetRequiredDestination(npcController);
             finishedDeciding = true;
             billBoard.UpdateBestActionText(bestAction.Name);
         }

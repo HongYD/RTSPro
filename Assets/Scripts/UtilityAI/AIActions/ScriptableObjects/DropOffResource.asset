@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5338afbc3362ca441b87296b2ef8b14f, type: 3}
+  m_Name: DropOffResource
+  m_EditorClassIdentifier: 
+  Name: DropOffResource
+  considerations:
+  - {fileID: 11400000, guid: ab6a0fb232ae77d4ebb8afaa32a0ff31, type: 2}

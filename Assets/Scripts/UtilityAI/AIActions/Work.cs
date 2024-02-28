@@ -24,6 +24,22 @@ namespace RTSPro.UtilityAI.AIActions
 
         }
 
-
+        public override void SetRequiredDestination(NPCController npc)
+        {
+            float distance = Mathf.Infinity;
+            Transform nearestResource = null;
+            List<Transform> resources = npc.context.Destinations[DestinationType.resource];
+            foreach (Transform resource in resources)
+            {
+                float distanceFromResource = Vector3.Distance(resource.position,npc.gameObject.transform.position);
+                if(distanceFromResource < distance)
+                {
+                    distance = distanceFromResource;
+                    nearestResource = resource;
+                }
+            }
+            RequiredDestination = nearestResource;
+            npc.movement.MoveTo(RequiredDestination.position);
+        }
     }
 }

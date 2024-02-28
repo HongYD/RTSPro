@@ -20,6 +20,8 @@ namespace RTSPro.UtilityAI
 
         public Consideration[] considerations;
 
+        public Transform RequiredDestination { get; protected set; }
+
         public virtual void Awake()
         {
             score = 0;
@@ -32,5 +34,7 @@ namespace RTSPro.UtilityAI
 
 
         public abstract void OnExit();
+
+        public abstract void SetRequiredDestination(NPCController npc);
     }
 }

@@ -6,18 +6,28 @@ using System;
 
 namespace RTSPro.Core
 {
+
+    public enum PlayerState
+    {
+        decide,
+        move,
+        excute,
+    }
+
     public class NPCController : MonoBehaviour
     {
         [SerializeField]
-        private MovementController movement { get; set; }
+        public MovementController movement { get; set; }
         [SerializeField]
-        private AIBrain aiBrain { get; set; }
-
-        public AIAction[] actionAvailable;
+        PlayerState currentState;
+        [SerializeField]
+        public AIBrain aiBrain { get; set; }
 
         public NPCInventory Inventory { get; set; }
 
         public Stats stats { get; set; }
+
+        public Context context;
 
         private void Start()
         {
@@ -34,11 +44,50 @@ namespace RTSPro.Core
                 aiBrain.finishedDeciding = false;
                 aiBrain.bestAction.OnExcute(this);
             }
+            FSMTick();
+        }
+
+        private void FSMTick()
+        {
+            if(currentState == PlayerState.decide)
+            {
+                aiBrain.DecideBestAction();
+                if (Vector3.Distance(aiBrain.bestAction.RequiredDestination.position, this.transform.position) < 2f)
+                {
+                    currentState = PlayerState.excute;
+                }
+                else
+                {
+                    currentState = PlayerState.move;
+                }
+            }
+            else if(currentState == PlayerState.move)
+            {
+                if (Vector3.Distance(aiBrain.bestAction.RequiredDestination.position, this.transform.position) < 2f)
+                {
+                    currentState = PlayerState.excute;
+                }
+                else
+                {
+                    movement.MoveTo(aiBrain.bestAction.RequiredDestination.position);
+                }
+            }
+            else if(currentState == PlayerState.excute)
+            {
+                if(aiBrain.finishedExcutingBestAction == false)
+                {
+                    aiBrain.bestAction.OnExcute(this);
+                }
+                else if(aiBrain.finishedExcutingBestAction == true)
+                {
+                    currentState = PlayerState.decide;
+                }
+            }
         }
 
         public void OnFinishedAction()
         {
-            aiBrain.DecideBestAction(actionAvailable);
+            aiBrain.DecideBestAction();
         }
 
         #region Action Excute Coroutines
@@ -57,7 +106,8 @@ namespace RTSPro.Core
             stats.hunger -= 30;
             stats.money -= 10;
             Debug.Log("I ate food");
-            OnFinishedAction();
+            aiBrain.finishedExcutingBestAction = true;
+            //OnFinishedAction();
         }
 
         private IEnumerator WorkCoroutine(int time)
@@ -72,9 +122,10 @@ namespace RTSPro.Core
             Debug.Log("I AM WORKING");
             //Logic to update things involved with work
             Inventory.AddResource(ResourceType.wood, 10);
-
+            aiBrain.finishedExcutingBestAction = true;
             //Decide our new best action after you finshed this one
-            OnFinishedAction();
+            //
+            //OnFinishedAction();
         }
 
         private IEnumerator SleepCoroutine(int time)
@@ -89,7 +140,8 @@ namespace RTSPro.Core
             stats.energy += 1;
             //Logic to update energy
             //Decide our new best action after you finshed this one
-            OnFinishedAction();
+            //OnFinishedAction();
+            aiBrain.finishedExcutingBestAction = true;
         }
         #endregion
     }

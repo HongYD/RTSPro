@@ -23,5 +23,11 @@ namespace RTSPro.UtilityAI.AIActions
         {
 
         }
+
+        public override void SetRequiredDestination(NPCController npc)
+        {
+            RequiredDestination = npc.context.home.transform;
+            npc.movement.MoveTo(RequiredDestination.position);
+        }
     }
 }
