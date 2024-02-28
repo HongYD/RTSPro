@@ -53,16 +53,16 @@ namespace RTSPro.Core
         // Start is called before the first frame update
         void Start()
         {
-            //hunger = Random.Range(20, 80);
-            //energy = Random.Range(20, 80);
-            //money = Random.Range(10, 100);
+            hunger = Random.Range(20, 80);
+            energy = Random.Range(20, 80);
+            money = Random.Range(10, 100);
 
-            // Test case: NPC will likely work
-            hunger = 0;
-            energy = 100;
-            money = 50;
+            //// Test case: NPC will likely work
+            //hunger = 0;
+            //energy = 100;
+            //money = 50;
 
-            //// Test case: NPC will likely eat
+            // Test case: NPC will likely eat
             //hunger = 90;
             //energy = 50;
             //money = 500;
@@ -83,6 +83,12 @@ namespace RTSPro.Core
             OnStatValueChanged -= UpdateDisplayText;
         }
 
+        private void Update()
+        {
+            UpdateEnergy();
+            UpdateHunger();
+        }
+
         public void UpdateHunger()
         {
             if (timeLeftHunger > 0)
@@ -95,13 +101,8 @@ namespace RTSPro.Core
             hunger += 1;
         }
 
-        public void UpdateEnergy(bool shouldNotUpdateEnergy)
+        public void UpdateEnergy()
         {
-            if (shouldNotUpdateEnergy)
-            {
-                return;
-            }
-
             if (timeLeftEnergy > 0)
             {
                 timeLeftEnergy -= Time.deltaTime;

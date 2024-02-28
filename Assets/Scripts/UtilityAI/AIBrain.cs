@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RTSPro.Core;
+using RTSPro.UI;
 
 namespace RTSPro.UtilityAI
 {
@@ -12,6 +13,7 @@ namespace RTSPro.UtilityAI
         public bool finishedDeciding { get; set; }
 
         private NPCController npcController;
+        [SerializeField] private Billboard billBoard;
         // Start is called before the first frame update
         void Start()
         {
@@ -46,6 +48,7 @@ namespace RTSPro.UtilityAI
             }
             bestAction = actionsAvailable[nextBestActionIndex];
             finishedDeciding = true;
+            billBoard.UpdateBestActionText(bestAction.Name);
         }
 
         /// <summary>

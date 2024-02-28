@@ -23,6 +23,8 @@ namespace RTSPro.Core
         {
             movement = GetComponent<MovementController>();
             aiBrain = GetComponent<AIBrain>();
+            Inventory = GetComponent<NPCInventory>();
+            stats = GetComponent<Stats>();
         }
 
         private void Update()
@@ -50,6 +52,14 @@ namespace RTSPro.Core
             StartCoroutine(SleepCoroutine(time));
         }
 
+        internal void DoEat()
+        {
+            stats.hunger -= 30;
+            stats.money -= 10;
+            Debug.Log("I ate food");
+            OnFinishedAction();
+        }
+
         private IEnumerator WorkCoroutine(int time)
         {
             int counter = time;
@@ -59,8 +69,10 @@ namespace RTSPro.Core
                 yield return new WaitForSeconds(1);
                 counter--;
             }
-            Debug.Log("I Just harvest 1 resources");
+            Debug.Log("I AM WORKING");
             //Logic to update things involved with work
+            Inventory.AddResource(ResourceType.wood, 10);
+
             //Decide our new best action after you finshed this one
             OnFinishedAction();
         }
@@ -74,6 +86,7 @@ namespace RTSPro.Core
                 counter--;
             }
             Debug.Log("I slept and gained 1 energy");
+            stats.energy += 1;
             //Logic to update energy
             //Decide our new best action after you finshed this one
             OnFinishedAction();

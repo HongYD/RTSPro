@@ -16,8 +16,7 @@ namespace RTSPro.UtilityAI.AIActions
 
         public override void OnExcute(NPCController npc)
         {
-            Debug.Log("I ate food");
-            npc.OnFinishedAction();
+            npc.DoEat();
             //Logic for updating every thing involved eating.
         }
 
